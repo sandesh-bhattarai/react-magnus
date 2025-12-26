@@ -22,3 +22,19 @@
 ## Web Hook 
   - state 
   - Effect 
+
+
+### Git Structure 
+  - Tree structure Version Controlling tool 
+    - commit, branch, tag
+
+    - trunk(master/main branch)
+    - Branch Live Server Deployment (Devops)
+      - PR(Pull request)
+        - branch(dev,nightly,...develop) -> develop/testing
+        - branch(staging) -> staging 
+        - main/master/production/prod >>>>> Production (live)
+    - Feature 
+      - Server 
+
+      
