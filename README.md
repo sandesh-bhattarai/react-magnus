@@ -22,3 +22,11 @@
 ## Web Hook 
   - state 
   - Effect 
+
+
+## Facebook => user profile => https://facebook.com/username  -> path param 
+## Detail(id or slug), Form Detail, preview page 
+
+## search, pagination, optional 
+## https://www.youtube.com/watch/?v=videoId&t=1000
+## https://youtu.be/videoid

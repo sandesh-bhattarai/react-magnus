@@ -22,7 +22,7 @@ export default function AuthLayout() {
 
         <div className="w-full md:w-2/3 bg-gray-100">
             <div className="my-20 w-full px-20 flex flex-col gap-20">
-              {/* <Outlet /> */}
+              <Outlet />
             </div>
         </div>
       </div>

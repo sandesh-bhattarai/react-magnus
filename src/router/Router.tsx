@@ -1,24 +1,13 @@
 // import { BrowserRouter, Route, Routes } from "react-router";
-import HomePage from "../pages/home/HomePage";
-import RegisterPage from "../pages/auth/RegisterPage";
 import NotFound from "../pages/error/NotFound";
 import { createBrowserRouter, RouterProvider } from "react-router";
-import AuthLayout from "../pages/layouts/AuthLayout";
-import UserLayout from "../pages/layouts/UserLayout";
-import AdminDashboard from "../pages/cms/AdminDashboard";
+import { AuthRouter } from "../pages/auth/authRouter";
+import { AdminRouter } from "../pages/cms/adminRouter";
 
 const router = createBrowserRouter([
-  {path: "/", element: <AuthLayout />, children: [
-      { index: true, element: <HomePage /> },
-      { path: "register", Component: RegisterPage },
-    ],
-  },
+  ...AuthRouter,
   { path: "*", element: <NotFound /> },
-  { path: "/admin", element: <UserLayout />, children: [
-      { index: true, element: <AdminDashboard /> },
-      { path: "*", element: <NotFound /> },
-    ],
-  },
+  ...AdminRouter
 ]);
 
 export default function AppRouter() {
@@ -26,14 +15,16 @@ export default function AppRouter() {
     <>
       <RouterProvider router={router} />
 
-      {/* <BrowserRouter>
+      {/* 
+      <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/register" Component={RegisterPage} />
 
           <Route path="*" Component={NotFound} />
         </Routes>
-      </BrowserRouter> */}
+      </BrowserRouter> 
+      */}
     </>
   ); 
 }
