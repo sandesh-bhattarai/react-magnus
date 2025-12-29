@@ -13,4 +13,7 @@ export interface ITextInputProps {
   type: string;
   placeholder?: string;
   className?: string;
+  // eslint-disable-next-line
+  control: any,
+  errMsg?: string | null
 }

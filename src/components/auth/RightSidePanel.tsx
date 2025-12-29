@@ -1,19 +1,27 @@
-import { useState, type BaseSyntheticEvent } from "react";
+// import {  type BaseSyntheticEvent } from "react";
 import { TextInput } from "../form/Input";
 import {InputType } from "../form/input.contract";
+import { useForm } from "react-hook-form";
 import { FormLabel } from "../form/Label";
 
-export default function RightSidepanel() {
-  const [credentials, setCredentials] = useState({
-    username: "",
-    password: ""
-  })
+interface ICredentials{
+  username: string, 
+  password: string
+}
 
-  // validate 
-  // process 
-  // submit 
-    // action 
-  console.log(credentials)
+export default function RightSidepanel() {
+  const {handleSubmit, control, formState: {errors}} = useForm({
+    defaultValues: {
+      username: "",
+      password: ""
+    }
+  })
+  const login = (credentials: ICredentials) => {
+    console.log(credentials)
+    // api call 
+  }
+
+  console.log(errors)
 
   return (
     <>
@@ -21,31 +29,30 @@ export default function RightSidepanel() {
         <div className="my-20 w-full px-20 flex flex-col gap-20">
           <h1 className="text-4xl text-semibold">Login Form</h1>
 
-          <form action="" className="flex flex-col gap-5">
+          <form
+            onSubmit={handleSubmit(login)}
+            className="flex flex-col gap-5"
+          >
             <div className="flex w-full">
               <FormLabel labelText="User Name: " htmlFor="username" />
               <div className="w-2/3">
-                <input
-                  // onChange={(e: BaseSyntheticEvent) => {
-                  //   setCredentials({
-                  //     ...credentials,
-                  //     username: e.target.value,
-                  //   });
-                  // }}
+                {/* <input
                   type="email"
-                  // name={"username"}
-                  // { ...register("username") }
-                  // {...field}
+                  {...register("username", { required: true })}
                   id={"username"}
                   placeholder={"enter your email as username"}
-                  className={`w-full border p-2 rounded-md border-gray-700`}
-                />
-
-                {/* <TextInput 
-                  name="username"
-                  type={InputType.EMAIL}
-                  placeholder="Enter your Username...."
+                  className={`w-full border p-2 rounded-md ${
+                    errors?.username ? "border-red-800" : "border-gray-700"
+                  }`}
                 /> */}
+
+                <TextInput 
+                  name="username"
+                  control={control}
+                  type={InputType.EMAIL}
+                  errMsg={errors?.username?.message}
+                  placeholder="Enter your Username...."
+                />
               </div>
             </div>
 
@@ -53,25 +60,26 @@ export default function RightSidepanel() {
               <FormLabel labelText="Password: " htmlFor="password" />
 
               <div className="w-2/3">
-                {/* <TextInput
+                <TextInput
                   type={InputType.PASSWORD}
                   placeholder="Enter your Password..."
                   name="username"
-                /> */}
+                  control={control}
+                  errMsg={errors?.password?.message}
+                />
 
-                <input
-                  onChange={(e: BaseSyntheticEvent) => {
-                    setCredentials({
-                      ...credentials,
-                      password: e.target.value,
-                    });
-                  }}
+                {/* <input
+                  // onChange={handleChange}
                   type="password"
-                  name={"password"}
+                  // name={"password"}
                   id={"password"}
+                  {...register("password", { required: true })}
                   placeholder={"enter your  password"}
                   className={`w-full border p-2 rounded-md border-gray-700`}
                 />
+                <span className="text-red-600 text-sm italic">
+                  {errors?.password ? "Password is required" : ""}
+                </span> */}
               </div>
             </div>
 
