@@ -3,25 +3,36 @@ import { TextInput } from "../form/Input";
 import {InputType } from "../form/input.contract";
 import { useForm } from "react-hook-form";
 import { FormLabel } from "../form/Label";
-
-interface ICredentials{
-  username: string, 
-  password: string
-}
+import { useOutletContext } from "react-router";
+import { useEffect } from "react";
+import { type IOutletContext } from "../../lib/types/GlobalTypes";
+import { type ICredentials } from "../../lib/types/AuthTypes";
 
 export default function RightSidepanel() {
+  const {setPageData} =useOutletContext<IOutletContext>()
+  
   const {handleSubmit, control, formState: {errors}} = useForm({
     defaultValues: {
       username: "",
       password: ""
     }
   })
+
   const login = (credentials: ICredentials) => {
     console.log(credentials)
     // api call 
   }
-
-  console.log(errors)
+  useEffect(() => {
+    setPageData({
+      title: "Login Page",
+      message:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam, culpa porro ipsa exercitationem aperiam nulla repudiandae a voluptates quo impedit corporis delectus provident commodi assumenda nemo modi? Soluta, doloremque modi.",
+      button: {
+        url: "/register",
+        text: "Register",
+      },
+    });
+  }, [])
 
   return (
     <>

@@ -1,10 +1,10 @@
 import AuthLayout from "../layouts/AuthLayout"
-import HomePage from "../home/HomePage"
 import RegisterPage from "./RegisterPage"
+import LoginPage from "./LoginPage"
 
 export const AuthRouter = [{
     path: "/", element: <AuthLayout />, children: [
-      { index: true, element: <HomePage /> },
+      { index: true, element: <LoginPage /> },
       { path: "register", Component: RegisterPage }
     ],
   }]

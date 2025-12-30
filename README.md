@@ -30,3 +30,37 @@
 ## search, pagination, optional 
 ## https://www.youtube.com/watch/?v=videoId&t=1000
 ## https://youtu.be/videoid
+
+
+## 
+  ```
+    /node_modules
+    /public
+    /src
+      /pages
+        /<Module>
+        /error
+        /layouts
+          ...
+      /components
+        /feature
+        /ui
+        /common
+        ...
+      /context
+        /providers
+        /hooks
+        ...
+      /stores
+        /reducers
+        ...main
+      /lib
+        /types
+        /config
+        /dto
+        /rules
+        /services
+      /router
+        mainrouter
+
+  ```

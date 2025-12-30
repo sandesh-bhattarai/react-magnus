@@ -3,29 +3,18 @@ import { TextInput } from "../../components/form/Input";
 import { InputType } from "../../components/form/input.contract";
 import { FormLabel } from "../../components/form/Label";
 
-import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useOutletContext } from "react-router";
+import { useEffect } from "react";
+import { type IOutletContext } from "../../lib/types/GlobalTypes";
+import { type IRegsiterData } from "../../lib/types/AuthTypes";
+import { RegisterDTO } from "../../lib/dto/AuthDTO";
 
-// fullname, email, password, confirmPassword, ....
-interface IRegsiterData {
-  fullName: string,
-  email: string,
-  password: string,
-  confirmPassword: string
-}
-
-const passwordRule = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[\d])(?=.*[\W]).{8,25}$/;
-
-
-const RegisterDTO = z.object({
-  fullName: z.string().min(2, "Name must have atlease 2 characters").max(50, "Name must be less than 50 characters").nonempty().trim(),
-  email: z.email().nonempty(),
-  password: z.string().regex(passwordRule, "Password must contain atleast 1 uppercase character, 1 lowercase character").nonempty(),
-  confirmPassword: z.string().nonempty()
-}).refine((data) => data.password === data.confirmPassword,{ path: ["confirmPassword"]})
 
 export default function RegisterPage() {
-  
+
+  const {setPageData} = useOutletContext<IOutletContext>()
+  // setPageData()
   const {control, handleSubmit, formState: {errors, isSubmitting}} = useForm({
     defaultValues: {fullName: "", email: "", password: "", confirmPassword: ""},
     resolver: zodResolver(RegisterDTO)
@@ -37,6 +26,18 @@ export default function RegisterPage() {
     // toaster 
 
   }
+
+  useEffect(() => {
+    setPageData({
+      title: "Register Page",
+      message:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam, culpa porro ipsa exercitationem aperiam nulla repudiandae a voluptates quo impedit corporis delectus provident commodi assumenda nemo modi? Soluta, doloremque modi.",
+      button: {
+        url: "/",
+        text: "Login",
+      },
+    });
+  }, [])
 
   // document 
   // window.
