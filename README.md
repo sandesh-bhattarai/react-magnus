@@ -64,3 +64,37 @@
         mainrouter
 
   ```
+
+## Cookies, LocalStorage and SessionStorage, 
+- Dependent on Domain 
+- Key-value pair name => value
+- Only string 
+
+### Cookies 
+  - For a limited period of time for a domain or a path => via subdomain
+    - if time is not specified ===> Session 
+  - Upon maturatiy, cookie gets self-destroyed 
+  - A domain can have max of about 50 
+  - each cookie can have max of 4086 characters 
+  - Cookie is kind of a secure 
+  - Cookie is passed to every http request
+
+  ```js
+    document.cookies = "name=value; expires=ISODate; path=/admin; "
+    document.cookies = "name1=value; expires=ISODate; path=/admin; "
+    const str = document.cookies    // "name=value; name1=value; "
+  ```
+### LocalStorage 
+  - Key-value pair
+  - stored unless your clear it 
+  - 5~10mb data 
+  - domain dependent
+### SessionStorage 
+  - Destroy upon browser/tab close 
+  - Set only for a tab
+
+
+### Context 
+- Context => create 
+- Provider => provide to component 
+- Consume => using hook to read from context

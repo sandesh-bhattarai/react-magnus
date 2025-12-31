@@ -1,7 +1,8 @@
 import { Outlet, NavLink } from "react-router";
 import { useState } from "react";
-import { FaAnglesLeft, FaAnglesRight, FaChartBar, FaFile, FaUsers, FaGear } from "react-icons/fa6";
+import { FaAnglesLeft, FaAnglesRight, FaChartBar, FaFile, FaUsers, FaGear, FaUser } from "react-icons/fa6";
 import { FaHome } from "react-icons/fa";
+import { useAuth } from "../../lib/hooks/useAuth";
 
 function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
@@ -51,40 +52,44 @@ function SidebarLink({ to, icon, label, collapsed }: SidebarLinkProps) {
 }
 
 export default function UserLayout() {
+  // 
+  const {loggedInUser} = useAuth()
+
   return (
     <>
-    <div className="flex h-screen bg-gray-100">
-      {/* Sidebar */}
-      <Sidebar />
+      <div className="flex h-screen bg-gray-100">
+        {/* Sidebar */}
+        <Sidebar />
 
-      {/* Main panel */}
-      <div className="flex-1 flex flex-col">
-        {/* Header */}
-        <header className="bg-white shadow h-16 flex items-center px-6 justify-between">
-          <div className="text-2xl font-bold text-gray-800">Admin Dashboard</div>
-          <div>
-            <button className="bg-teal-700 hover:bg-teal-800 text-white px-4 py-2 rounded transition">Settings</button>
-          </div>
-        </header>
+        {/* Main panel */}
+        <div className="flex-1 flex flex-col">
+          {/* Header */}
+          <header className="bg-white shadow h-16 flex items-center px-6 justify-between">
+            <div className="text-2xl font-bold text-gray-800">
+              Admin Dashboard
+            </div>
+            <div className="flex gap-3 items-center">
+              <span className="size-8 bg-gray-800 flex items-center justify-center rounded-full">
+                <FaUser className="size-5 text-white" />
+              </span>{" "}
+              {loggedInUser?.name}
+            </div>
+          </header>
 
-        {/* Content */}
-        <main className="flex-1 overflow-y-auto p-6">
-          
+          {/* Content */}
+          <main className="flex-1 overflow-y-auto p-6">
+            {/* Render nested route content: */}
+            <div className="mt-4">
+              <Outlet />
+            </div>
+          </main>
 
-          {/* Render nested route content: */}
-          <div className="mt-4">
-            
-            <Outlet />
-
-
-          </div>
-        </main>
-        
-        {/* Footer */}
-        <footer className="bg-white text-center text-gray-500 text-sm h-12 flex items-center justify-center shadow-inner">
-          © 2024 Admin Dashboard. All rights reserved.
-        </footer>
+          {/* Footer */}
+          <footer className="bg-white text-center text-gray-500 text-sm h-12 flex items-center justify-center shadow-inner">
+            © 2024 Admin Dashboard. All rights reserved.
+          </footer>
+        </div>
       </div>
-    </div>
-  </>);
+    </>
+  );
 }
