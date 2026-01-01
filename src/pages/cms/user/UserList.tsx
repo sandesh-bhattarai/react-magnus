@@ -1,35 +1,7 @@
-import { useEffect } from "react";
-import { NavLink, useSearchParams } from "react-router";
-// import { TextInput } from "../../components/form/Input";
-// import { useEffect, useState } from "react";
-// import { useState } from "react";
+import { NavLink } from "react-router";
 
 export default function UserList() {
-  // const [search, setSearch] = useState<string>();
-  // const [province, setProvince] = useState<string>();
-
-  const [query, setQuery] = useSearchParams()
-  // const [mouseMovement, setMouseMovement] = useState()
-
-  // Province -> District => mul/rural -> ward -> street 
   
-  useEffect(() => {});
-  useEffect(() => {
-    setQuery({
-      search: "abcd"
-    })
-  }, []);
-  // useEffect(() => { // if else  }, [dep1,dep2]);
-
-
-  // useEffect(() => {
-  //   // api call here
-  // },[search])
-
-  // useEffect(() => {
-  //   // 
-  // },[province])
-
   return (
     <>
       <div className="flex flex-col gap-5 bg-gray-50 h-screen w-full p-10">

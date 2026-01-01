@@ -1,11 +1,14 @@
-import { Outlet, NavLink } from "react-router";
-import { useState } from "react";
-import { FaAnglesLeft, FaAnglesRight, FaChartBar, FaFile, FaUsers, FaGear, FaUser } from "react-icons/fa6";
+import { Outlet, NavLink, Navigate } from "react-router";
+import { useState, type ReactNode } from "react";
+import { FaAnglesLeft, FaAnglesRight, FaBold, FaImages, FaUser, FaUsers } from "react-icons/fa6";
 import { FaHome } from "react-icons/fa";
 import { useAuth } from "../../lib/hooks/useAuth";
 
-function Sidebar() {
+interface IMenuSingleItem{label: string, icon: ReactNode, url: string}
+
+function Sidebar({menu}: Readonly<{menu: Array<IMenuSingleItem>}>) {
   const [collapsed, setCollapsed] = useState(false);
+  
   return (
     <div className={`bg-teal-900 text-white flex flex-col transition-all duration-300 ${collapsed ? "w-16" : "w-56"} min-h-screen`}>
       <div className="flex items-center justify-between px-4 h-16 border-b border-teal-800">
@@ -19,11 +22,16 @@ function Sidebar() {
         </button>
       </div>
       <nav className="flex-1 mt-4 flex flex-col gap-2">
-        <SidebarLink to="/admin/dashboard" collapsed={collapsed} icon={<FaHome />} label="Dashboard" />
-        <SidebarLink to="/admin/user" collapsed={collapsed} icon={<FaUsers />} label="Users" />
-        <SidebarLink to="/admin/analytics" collapsed={collapsed} icon={<FaChartBar />} label="Analytics" />
-        <SidebarLink to="/admin/reports" collapsed={collapsed} icon={<FaFile />} label="Reports" />
-        <SidebarLink to="/admin/settings" collapsed={collapsed} icon={<FaGear />} label="Settings" />
+        {
+          menu && menu.map((item: IMenuSingleItem, index: number) => (
+            <SidebarLink 
+              key={index} 
+              to={item.url} 
+              collapsed={collapsed}
+              icon={item.icon} 
+              label={item.label} />
+          ))
+        }
       </nav>
     </div>
   );
@@ -55,41 +63,68 @@ export default function UserLayout() {
   // 
   const {loggedInUser} = useAuth()
 
-  return (
-    <>
-      <div className="flex h-screen bg-gray-100">
-        {/* Sidebar */}
-        <Sidebar />
+  if(Object.keys(loggedInUser).length) {
+    // loggedInuser => permission => db
+    let sidebarMenu: Array<IMenuSingleItem> = [];
 
-        {/* Main panel */}
-        <div className="flex-1 flex flex-col">
-          {/* Header */}
-          <header className="bg-white shadow h-16 flex items-center px-6 justify-between">
-            <div className="text-2xl font-bold text-gray-800">
-              Admin Dashboard
-            </div>
-            <div className="flex gap-3 items-center">
-              <span className="size-8 bg-gray-800 flex items-center justify-center rounded-full">
-                <FaUser className="size-5 text-white" />
-              </span>{" "}
-              {loggedInUser?.name}
-            </div>
-          </header>
+    // permission ['dashboard-access': ['admin','seller','cusomer']]
+    // route access ['/admin': ['dashboard-access']]
+    
+    if(loggedInUser.role === 'admin') {
+      sidebarMenu = [
+        { label: "Dashboard", icon: <FaHome />, url: "/admin" },
+        { label: "User", icon: <FaUsers />, url: "/admin/users" },
+        { label: "Brand", icon: <FaBold />, url: "/admin/brand" },
+      ];
+    } else if(loggedInUser.role=== 'seller') {
+      sidebarMenu = [
+        { label: "Dashboard", icon: <FaHome />, url: "/seller" },
+        { label: "Brand", icon: <FaBold />, url: "/seller/brand" },
+      ];
+    } else if(loggedInUser.role === 'customer') {
+      sidebarMenu = [
+        { label: "Dashboard", icon: <FaHome />, url: "/customer" }
+      ];
+    }
 
-          {/* Content */}
-          <main className="flex-1 overflow-y-auto p-6">
-            {/* Render nested route content: */}
-            <div className="mt-4">
-              <Outlet />
-            </div>
-          </main>
+    return (
+      <>
+        <div className="flex h-screen bg-gray-100">
+          {/* Sidebar */}
+          <Sidebar menu={sidebarMenu} />
+          {/* Main panel */}
+          <div className="flex-1 flex flex-col">
+            {/* Header */}
+            <header className="bg-white shadow h-16 flex items-center px-6 justify-between">
+              <div className="text-2xl font-bold text-gray-800">
+                Admin Dashboard
+              </div>
+              <div className="flex gap-3 items-center">
+                <span className="size-8 bg-gray-800 flex items-center justify-center rounded-full">
+                  <FaUser className="size-5 text-white" />
+                </span>{" "}
+                {loggedInUser?.name}
+              </div>
+            </header>
 
-          {/* Footer */}
-          <footer className="bg-white text-center text-gray-500 text-sm h-12 flex items-center justify-center shadow-inner">
-            © 2024 Admin Dashboard. All rights reserved.
-          </footer>
+            {/* Content */}
+            <main className="flex-1 overflow-y-auto p-6">
+              {/* Render nested route content: */}
+              <div className="mt-4">
+                <Outlet />
+              </div>
+            </main>
+
+            {/* Footer */}
+            <footer className="bg-white text-center text-gray-500 text-sm h-12 flex items-center justify-center shadow-inner">
+              © 2024 Admin Dashboard. All rights reserved.
+            </footer>
+          </div>
         </div>
-      </div>
-    </>
-  );
+      </>
+    );
+  } else {
+    return <Navigate to={'/'} />
+  }
+  
 }

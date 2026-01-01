@@ -4,12 +4,11 @@ import { LinkComponent } from "../ui/Link";
 
 interface IPageHeadingProps {
   pageTitle: string;
+  className?: string
 }
 
-export const PageHeading = ({ pageTitle }: Readonly<IPageHeadingProps>) => {
-  return <h1 className="text-4xl text-white font-semibold">
-    {pageTitle}
-  </h1>;
+export const PageHeading = ({ pageTitle, className }: Readonly<IPageHeadingProps>) => {
+  return <h1 className={`${className} text-4xl text-white font-semibold`}>{pageTitle}</h1>;
 };
 
 export default function LeftSidePanel({pageData}: Readonly<{pageData: IPageData}>) {

@@ -2,18 +2,20 @@ import { useState, type ReactNode } from "react"
 import AuthContext from "../AuthContext"
 import axiosInstance from "../../config/AxiosConfig"
 import { setCookie } from "../../utilities/helpers"
-import type { ICredentials } from "../../types/AuthTypes"
+import type { ICredentials, IUser } from "../../types/AuthTypes"
 import Cookies from "js-cookie"
 
 const AuthProvider = ({children}: Readonly<{children: ReactNode}>) => {
-  const [loggedInUser, setLoggedInUser] = useState();
+  const [loggedInUser, setLoggedInUser] = useState<IUser>({} as IUser);
+  // db 
+  
 
   const login = async(credentials: ICredentials) => {
     const response = await axiosInstance.post("/auth/login", credentials)
     setCookie("_at", response.data, 1)
   }
 
-  const getLoggedInUserProfile = async() => {
+  const getLoggedInUserProfile = async(): Promise<IUser> => {
     const loggedInUser = await axiosInstance.get("/auth/me", {
       headers: {
         Authorization: "Bearer " + Cookies.get("_at"),
@@ -22,6 +24,7 @@ const AuthProvider = ({children}: Readonly<{children: ReactNode}>) => {
     setLoggedInUser(loggedInUser.data);
     return loggedInUser.data
   }
+
   return (
     <>
       <AuthContext.Provider

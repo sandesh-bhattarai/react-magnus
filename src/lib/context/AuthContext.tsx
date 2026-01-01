@@ -1,10 +1,11 @@
 import { createContext } from "react";
-import type { ICredentials } from "../types/AuthTypes";
+import type { ICredentials, IUser } from "../types/AuthTypes";
 
 const AuthContext = createContext({
-  loggedInUser: null,
+  loggedInUser: {} as IUser,
+  // eslint-disable-next-line
   login: async(cred: ICredentials):Promise<void> => {},
-  getLoggedInUserProfile:async(): Promise<any> => {},
+  getLoggedInUserProfile: async():Promise<IUser> => { return {} as IUser},
   // register: () => {},
   // activation: () => {},
   // forgetPassword: () => {},
