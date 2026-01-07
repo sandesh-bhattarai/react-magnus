@@ -29,3 +29,13 @@ export interface ISelectInputProps {
   control: any;
   errMsg?: string | null;
 }
+
+export interface ITextAreaProps {
+  name: string;
+  placeholder?: string;
+  className?: string;
+  // eslint-disable-next-line
+  control: any;
+  errMsg?: string | null;
+  rows?: number
+}

@@ -20,7 +20,7 @@ export default function UserCreate() {
   const navigate = useNavigate()
 
   // console.log(errors)
-// console.log(errors)
+  // console.log(errors)
   const register = async (data: IRegsiterData) => {
     try {
       await axiosInstance.post("/auth/register", data, {

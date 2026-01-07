@@ -1,5 +1,6 @@
 import axios from "axios";
 import { toast } from "sonner";
+import Cookies from "js-cookie";
 
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_APP_API_URL,
@@ -14,7 +15,7 @@ const axiosInstance = axios.create({
 // Request 
 // UI Comoponent => Axios Instance => (Intercept/Request) => Network
 axiosInstance.interceptors.request.use((config) => {
-  const token = "";   // webstorage update
+  const token = Cookies.get("_at");   // webstorage update
   if(token) {
     config.headers.Authorization = "Bearer "+token;
   }
@@ -32,6 +33,9 @@ axiosInstance.interceptors.response.use((response) => {
   } else if(exception.status === 403) {
     toast.error("You don't have permission to access this request")
     throw exception.response
+  } else if(exception.status === 404) {
+    toast.error("Api route not found");
+    throw exception.response;
   }
 })
 export default axiosInstance
