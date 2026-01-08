@@ -1,6 +1,6 @@
 import { Outlet, NavLink, Navigate } from "react-router";
 import { useState, type ReactNode } from "react";
-import { FaAnglesLeft, FaAnglesRight, FaBold, FaImages, FaNewspaper, FaUser, FaUsers } from "react-icons/fa6";
+import { FaAnglesLeft, FaAnglesRight, FaBold, FaImages, FaMessage, FaNewspaper, FaUser, FaUsers } from "react-icons/fa6";
 import { FaHome } from "react-icons/fa";
 import { useAuth } from "../../lib/hooks/useAuth";
 
@@ -75,7 +75,7 @@ export default function UserLayout() {
         { label: "Dashboard", icon: <FaHome />, url: "/admin" },
         { label: "User", icon: <FaUsers />, url: "/admin/users" },
         { label: "Blogs", icon: <FaNewspaper />, url: "/admin/blogs" },
-        { label: "Brand", icon: <FaBold />, url: "/admin/brand" },
+        { label: "Messages", icon: <FaMessage />, url: "/admin/chats" },
       ];
     } else if(loggedInUser.role=== 'seller') {
       sidebarMenu = [

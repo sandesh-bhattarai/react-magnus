@@ -8,7 +8,7 @@ export const StatusPills = ({status}: Readonly<{status: string}>) => {
             : "bg-red-100 tex-red-800"
         } p-3 px-5 rounded-full`}
       >
-        {status ? "Published" : "Un-Published"}
+        {status === 'active' ? "Published" : "Un-Published"}
       </span>
     </>
   );

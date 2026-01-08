@@ -36,6 +36,8 @@ axiosInstance.interceptors.response.use((response) => {
   } else if(exception.status === 404) {
     toast.error("Api route not found");
     throw exception.response;
+  } else {
+    throw exception
   }
 })
 export default axiosInstance

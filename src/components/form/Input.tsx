@@ -34,6 +34,7 @@ import {
   TextTransformation,
 } from "ckeditor5";
 import "ckeditor5/ckeditor5.css";
+import { useState } from "react";
 
 export const TextInput = ({
   name,
@@ -186,6 +187,8 @@ export const FileUploadInput = ({
     defaultValue: "",
   });
 
+  const [thumb, setThumb] = useState<File|undefined>()
+
   return (
     <>
       <input
@@ -194,13 +197,17 @@ export const FileUploadInput = ({
           // {"0": {}},// {"0": File, "1": File}
           // BE multiple => [File,File, File]
           const files = e.target.files;
+          const singleFile = Object.values(files!).pop();
+          
+          setThumb(singleFile)
           // {"0": {}}.values => [File]
-          field.onChange(Object.values(files).pop());
+          field.onChange(singleFile);
         }}
         id={name}
         // {...field}
         className={`w-full border p-2 rounded-md border-gray-700 ${className}`}
       />
+      <img src={thumb && typeof thumb === 'object' ? URL.createObjectURL(thumb) : "https://placehold.co/200x50"} loading="lazy"/>
       <span className="text-red-600 text-sm italic">{errMsg ?? ""}</span>
     </>
   );
@@ -219,6 +226,7 @@ export const HtmlTextEditor = ({
     <>
       <CKEditor
         editor={ClassicEditor}
+        data={field.value}
         onChange={(e, editor) => {
           field.onChange(editor.getData());
         }}

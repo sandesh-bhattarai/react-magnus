@@ -5,6 +5,7 @@ import axiosInstance from "../../../lib/config/AxiosConfig";
 import type { IUser } from "../../../lib/types/AuthTypes";
 import { StatusPills } from "../../../components/ui/Pills";
 import { RowAction } from "../../../components/table/RowAction";
+import { toast } from "sonner";
 
 export interface IBlog{
   author: IUser, 
@@ -24,14 +25,28 @@ export default function BlogList() {
   const [blogs, setBlogs] = useState<Array<IBlog>>([]);
   const [loading, setLoading] = useState<boolean>(true)
   const [query, setQuery] = useSearchParams();
+  const [search, setSearch] = useState<string>('');
+
   const [pagination, setPagination] = useState({
     page: 1,
     total: 0,
-    limit: 1,
+    limit: 10,
     totalNoOfPages: 1
   })
 
-  const fetchData = useCallback(async ({ page = 1, limit = 1, search = "" }: {page: string|number, limit: number|string, search?: string}) => {
+  // search handle 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      // if(search.length > 3 || search.length === 0) {
+      fetchData({page: 1, limit: 10, search: search})
+      // }
+    }, 500)
+    return () => {
+      clearTimeout(timer)
+    }
+  },[search])
+
+  const fetchData = useCallback(async ({ page = 1, limit = 10, search = "" }: {page: string|number, limit: number|string, search?: string}) => {
     try {
       const response = await axiosInstance.get("/blog", {
         params: {
@@ -54,8 +69,21 @@ export default function BlogList() {
   }, []);
   
   useEffect(() => {
-    fetchData({page: query.get("page") ?? 1, limit: 1, search: ""})
+    fetchData({page: query.get("page") ?? 1, limit: 10, search: ""})
   },[])
+
+  const deleteBlog = async (blogId: string) => {
+    setLoading(true)
+    try {
+      await axiosInstance.delete('/blog/'+blogId)
+      toast.success("Blog Deleted successfully.")
+      await fetchData({page: pagination.page, limit: pagination.limit, search: search})
+    } catch {
+      toast.error("Blog cannot be deleted at this time")
+    } finally{
+      setLoading(false)
+    }
+  }
   return (
     <>
       <div className="flex flex-col gap-5 bg-gray-50 h-screen w-full p-10">
@@ -80,6 +108,10 @@ export default function BlogList() {
                 type="search"
                 name="search"
                 id={"search"}
+                onChange={(e) => {
+                  // await fetchData({page: 1, limit: 10, search: e.target.value})
+                  setSearch(e.target.value);
+                }}
                 placeholder={"Enter your search Keyword"}
                 className={`w-full border p-2 rounded-md border-gray-700 `}
               />
@@ -121,6 +153,8 @@ export default function BlogList() {
                     <td className="p-4 border border-gray-400 ">
                       <RowAction
                         editUrl={"/admin/blog/" + blog._id + "/edit"}
+                        rowId={blog._id}
+                        deleteAction={deleteBlog}
                       />
                     </td>
                   </tr>
@@ -168,13 +202,13 @@ export default function BlogList() {
                   e.preventDefault();
                   if (
                     pagination.totalNoOfPages !== 1 ||
-                    pagination.page !== (ind+1)
+                    pagination.page !== ind + 1
                   ) {
                     setQuery({
                       page: `${ind + 1}`,
                     });
                     await fetchData({
-                      page: (ind+1),
+                      page: ind + 1,
                       limit: pagination.limit,
                     });
                   }
