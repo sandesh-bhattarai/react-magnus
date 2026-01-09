@@ -21,6 +21,7 @@ const AuthProvider = ({children}: Readonly<{children: ReactNode}>) => {
         Authorization: "Bearer " + Cookies.get("_at"),
       },
     });
+    // permission => 
     setLoggedInUser(loggedInUser.data);
     return loggedInUser.data
   }

@@ -7,6 +7,8 @@ import UserCreate from "./user/UserCreate"
 
 import { lazy, Suspense } from "react"
 import ChatList from "./chats/ChatList"
+
+// import { CheckPermission } from "../../components/permission/CheckPermission"
 // import BlogEdit from "./blog/BlogEdit"
 // import BlogCreate from "./blog/BlogCreate"
 
@@ -27,7 +29,9 @@ export const AdminRouter = [
       { path: "user/create", element: <UserCreate /> },
       { path: "user/:userId", element: <UserEdit /> },
 
-      { path: "chats", element: <ChatList /> },
+      { path: "chats", element: 
+        // <CheckPermission accessLevel="page" havePermission={['can-read-chat',]}
+        <ChatList /> },
 
       // { path: "blogs", element: <>Blog Layout<Outlet /></>, children: [{}]},
       {

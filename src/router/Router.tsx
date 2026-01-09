@@ -7,13 +7,15 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../lib/hooks/useAuth";
 import Cookies from "js-cookie";
 import { CustomerRouter } from "../pages/cms/customerRouter";
+// import UserLayout from "../pages/layouts/UserLayout";
 
 const router = createBrowserRouter([
   ...AuthRouter,
 
   { path: "*", element: <NotFound /> },
   ...AdminRouter,
-  ...CustomerRouter
+  ...CustomerRouter,
+  // {path: "/:role", element: <UserLayout />}
 ]);
 
 export default function AppRouter() {

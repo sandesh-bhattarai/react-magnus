@@ -1,7 +1,29 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, type ReactNode } from "react";
 import { NavLink } from "react-router";
 import axiosInstance from "../../../lib/config/AxiosConfig";
+import { useAuth } from "../../../lib/hooks/useAuth";
 // import { toast } from "sonner";
+
+
+// export const PermissionCheck = ({children,havePermission}: Readonly<{children: ReactNode, havePermission: Array<string>}>) => {
+//   const {loggedInUser} = useAuth()
+//   let isPermitted = false;
+
+//   havePermission.map((val) => {
+//     if(loggedInUser.permission.includes(val)) {
+//       isPermitted = true
+//     }
+//   })
+
+//   if(isPermitted) {
+//     return {children}
+//   } else {
+//     return <></>
+//   }
+// }
+
+
+
 
 interface IUser {
   createdAt: string,
@@ -54,14 +76,16 @@ export default function UserList() {
           <h1 className="text-4xl text-gray-900 font-semibold underline underline-offset-4">
             User List
           </h1>
-          <NavLink
-            className={
-              "bg-teal-800 text-white p-3 w-40 rounded-md flex justify-center text-lg font-black hover:bg-teal-900 transition hover:scale-96"
-            }
-            to={"/admin/user/create"}
-          >
-            Add User
-          </NavLink>
+          {/* <PermissionCheck havePermission={['can-add-user','can-edit-user']}> */}
+            <NavLink
+              className={
+                "bg-teal-800 text-white p-3 w-40 rounded-md flex justify-center text-lg font-black hover:bg-teal-900 transition hover:scale-96"
+              }
+              to={"/admin/user/create"}
+            >
+              Add User
+            </NavLink>
+          {/* </PermissionCheck> */}
         </div>
 
         <div className="flex flex-col gap-3 w-full">

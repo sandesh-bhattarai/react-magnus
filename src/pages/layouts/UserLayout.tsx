@@ -63,12 +63,33 @@ export default function UserLayout() {
   // 
   const {loggedInUser} = useAuth()
 
-  if(Object.keys(loggedInUser).length) {
+  // ['can-read-dashboard']
+
+  // permission 
+
+  if(Object.keys(loggedInUser).length ) {
     // loggedInuser => permission => db
     let sidebarMenu: Array<IMenuSingleItem> = [];
 
     // permission ['dashboard-access': ['admin','seller','cusomer']]
     // route access ['/admin': ['dashboard-access']]
+
+    // let menuArr = [
+    //   { label: "Dashboard", icon: <FaHome />, url: "/dashboard"  },
+    // ];
+
+    // role => permission 
+    // User
+
+    // {role: ["permission"]}
+
+    // if(loggedInUser.permission.includes('can-read-user')) {
+    //   menuArr.push({
+    //     label: "User",
+    //     icon: <FaHome />,
+    //     url: "/user",
+    //   });
+    // }
     
     if(loggedInUser.role === 'admin') {
       sidebarMenu = [

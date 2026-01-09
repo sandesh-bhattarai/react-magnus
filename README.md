@@ -98,3 +98,9 @@
 - Context => create 
 - Provider => provide to component 
 - Consume => using hook to read from context
+
+g a u g
+0 6 5 5
+
+5 => wrx
+7 => dwrx
